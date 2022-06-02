@@ -45,7 +45,7 @@ class ModelExport :
         -------
         None
         """
-        x = self.X_data.loc[:,self.feature_set].as_matrix()
+        x = self.X_data.loc[:,self.feature_set].values
         y = self.y_data.as_matrix()
         pred_plotY = np.zeros_like(y)
         g_mlrr = LinearRegression()
