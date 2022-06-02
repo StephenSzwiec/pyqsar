@@ -1,0 +1,9 @@
+bokeh
+ipython
+joblib
+matplotlib
+numpy
+pandas
+scikit_learn
+scipy
+setuptools

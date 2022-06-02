@@ -22,5 +22,16 @@ setuptools.setup(
     ],
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
-    python_requires=["setuptools>=60","numpy","sklearn","matplotlib","random","datetime","pandas","ipywidgets","rdkit","joblib","bokeh"],
+    python_requires=">=3",
+    install_requires=[
+        "bokeh",
+        "ipython",
+        "joblib",
+        "matplotlib",
+        "numpy",
+        "pandas",
+        "scikit_learn",
+        "scipy",
+        "setuptools",
+    ],
 )

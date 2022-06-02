@@ -5,4 +5,5 @@ setup.py
 src/pyqsar.egg-info/PKG-INFO
 src/pyqsar.egg-info/SOURCES.txt
 src/pyqsar.egg-info/dependency_links.txt
+src/pyqsar.egg-info/requires.txt
 src/pyqsar.egg-info/top_level.txt
