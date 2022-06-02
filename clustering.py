@@ -108,7 +108,7 @@ class FeatureCluster:
             clu_hist [k] = v
         for t in range(1,max(nc)+1):
             vv = []
-            vv = [key for key, value in clu_hist.iteritems() if value == t]    #Find Key by Value in Dictionary
+            vv = [key for key, value in clu_hist.items() if value == t]    #Find Key by Value in Dictionary
             cluster.append(vv)
 
         for s in cluster :
