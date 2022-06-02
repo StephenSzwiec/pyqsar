@@ -78,7 +78,7 @@ class FeatureCluster:
             cludic[k] = v
         for t in range(1,nnc+1):
             vv = []
-            vv = [key for key, value in cludic.iteritems() if value == t]    #Find Key by Value in Dictionary
+            vv = [key for key, value in cludic.items() if value == t]    #Find Key by Value in Dictionary
             self.cluster_info.append(vv)
             print('\n','\x1b[1;46m'+'Cluster'+'\x1b[0m',t,vv,)
         return self.assignments
