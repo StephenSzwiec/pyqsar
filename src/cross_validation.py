@@ -32,8 +32,8 @@ def k_fold(X_data,y_data,feature_set,run=100,k=5) :
         intercept = []
         trainset_index=[]
         testset_index=[]
-        x = X_data.loc[:,feature_set].as_matrix()
-        y =y_data.as_matrix()
+        x = X_data.loc[:,feature_set].values
+        y =y_data.values
         kf = KFold(n_splits=k,shuffle=True)
         predY = np.zeros_like(y)
         for train,test in kf.split(x):

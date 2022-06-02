@@ -46,7 +46,7 @@ class ModelExport :
         None
         """
         x = self.X_data.loc[:,self.feature_set].values
-        y = self.y_data.as_matrix()
+        y = self.y_data.values
         pred_plotY = np.zeros_like(y)
         g_mlrr = LinearRegression()
         g_mlrr.fit(x,y)
@@ -68,8 +68,8 @@ class ModelExport :
         # index start from 0
         output_notebook()
         TOOLS = [BoxSelectTool(), HoverTool()]
-        x = self.X_data.loc[:,self.feature_set].as_matrix()
-        Ay = self.y_data.as_matrix()
+        x = self.X_data.loc[:,self.feature_set].values
+        Ay = self.y_data.values
         ipred_plotY = np.zeros_like(Ay)
         ig_mlrr = LinearRegression()
         ig_mlrr.fit(x,Ay)
@@ -94,8 +94,8 @@ class ModelExport :
         -------
         None
         """
-        x = self.X_data.loc[:,self.feature_set].as_matrix()
-        y = self.y_data.as_matrix()
+        x = self.X_data.loc[:,self.feature_set].values
+        y = self.y_data.values
         mlr = LinearRegression()
         mlr.fit(x,y)
         print('Model features: ',self.feature_set)
@@ -152,10 +152,10 @@ def external_set(X_data,y_data,exdataX,exdataY,feature_set) :
     -------
     None
     """
-    x = X_data.loc[:,feature_set].as_matrix()
-    y = y_data.as_matrix()
-    exd = exdataX.loc[:,feature_set].as_matrix()
-    exdY = exdataY.as_matrix()
+    x = X_data.loc[:,feature_set].values
+    y = y_data.values
+    exd = exdataX.loc[:,feature_set].values
+    exdY = exdataY.values
 
     scalerr = MinMaxScaler()
     scalerr.fit(x)
