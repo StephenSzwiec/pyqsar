@@ -56,6 +56,32 @@ class ModelExport :
         plt.scatter(y,pred_plotY,color=['gray'])
         plt.plot([y.min() , y.max()] , [[y.min()],[y.max()]],"black" )
         plt.show()
+        
+    def williams_plot(self) :
+        """
+        Show residuals of training plot
+
+        Returns
+        -------
+        None
+        """
+        x = self.X_data.loc[:,self.feature_set].values
+        y = self.y_data.values
+        pred_plotY = np.zeros_like(y)
+        g_mlrr = LinearRegression()
+        g_mlrr.fit(x, y)
+        std = np.std(y.to_numpy())
+        Y_pred = g_mlrr.predict(x)
+        residuals = (Y_pred - y) / std
+        plt.axline(xy1=(min(Y_pred-0.1),0),slope=0)
+        plt.axline(xy1=(min(Y_pred-0.1),3),slope=0,linestyle="--")
+        plt.axline(xy1=(min(Y_pred-0.1),-3),slope=0,linestyle="--")
+        plt.ylabel("Residuals")
+        plt.xlabel("Leverage")
+        plt.ylim([-3.5,3.5])
+        plt.scatter(Y_pred,residuals,color=['gray'])
+        plt.plot()
+        plt.show()
 
     def train_plot_inter(self) :
         """
@@ -136,7 +162,7 @@ class ModelExport :
 
 def external_set(X_data,y_data,exdataX,exdataY,feature_set) :
     """
-    Presiction external data set
+    Prediction external data set
 
     Parameters
     ----------
