@@ -56,30 +56,49 @@ class ModelExport :
         plt.scatter(y,pred_plotY,color=['gray'])
         plt.plot([y.min() , y.max()] , [[y.min()],[y.max()]],"black" )
         plt.show()
-        
-    def williams_plot(self) :
+
+    def williams_plot(self, exdataX=None, exdataY=None) :
         """
         Show residuals of training plot
+        Optionally, show residuals of test plot
 
         Returns
         -------
         None
         """
+        if (exdataX or exdataY) :
+            print("Please input both X and Y data")
+            return
+        test_set = False
         x = self.X_data.loc[:,self.feature_set].values
         y = self.y_data.values
-        pred_plotY = np.zeros_like(y)
         g_mlrr = LinearRegression()
         g_mlrr.fit(x, y)
-        std = np.std(y.to_numpy())
+        std = np.std(y)
         Y_pred = g_mlrr.predict(x)
-        residuals = (Y_pred - y) / std
-        plt.axline(xy1=(min(Y_pred-0.1),0),slope=0)
-        plt.axline(xy1=(min(Y_pred-0.1),3),slope=0,linestyle="--")
-        plt.axline(xy1=(min(Y_pred-0.1),-3),slope=0,linestyle="--")
-        plt.ylabel("Residuals")
-        plt.xlabel("Leverage")
+        H = Hin = (Y_pred / std) * ( x * np.linalg.pinv(x).T).sum(1)
+        residuals = res = (Y_pred - y) / std
+        if (exdataX != None and exdataY != None) :
+            test_set = True
+            xex = exdataX.loc[:self.feature_set].values
+            yex = exdataY.values
+            Y_pred_ex = g_mlrr.predict(xex)
+            residuals_ex = (Y_pred_ex - yex) / std
+            Hex = ( Y_pred_ex / std )  * ( xex * np.linalg.pinv(xex).T).sum(1)
+            H.append(Hex)   # append Hex to H
+            residuals.append(residuals_ex)  # append residuals of test data
+        hii = 3 * ( (len(self.feature_set) + 1) / len(Y_pred) )
+        H_min = min(H-0.1)
+        plt.axline(xy1=(H_min,0),slope=0)
+        plt.axline(xy1=(H_min,3),slope=0,linestyle="--")
+        plt.axline(xy1=(H_min,-3),slope=0,linestyle="--")
+        plt.axline(xy1=(hii, -3.5), xy2=(hii, 3.5))
+        plt.ylabel("Std. Residuals")
+        plt.xlabel("Hat Values")
         plt.ylim([-3.5,3.5])
-        plt.scatter(Y_pred,residuals,color=['gray'])
+        plt.scatter(Hin,res,color=['gray'])
+        if(test_set) :
+            plt.scatter(Hex,residuals_ex,color=['red'])
         plt.plot()
         plt.show()
 
