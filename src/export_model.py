@@ -66,7 +66,7 @@ class ModelExport :
         -------
         None
         """
-        if (exdataX or exdataY) :
+        if ((type(exdataX) is not None) ^ (type(exdataY) is not None)) :
             print("Please input both X and Y data")
             return
         test_set = False
@@ -76,7 +76,7 @@ class ModelExport :
         g_mlrr.fit(x, y)
         std = np.std(y)
         Y_pred = g_mlrr.predict(x)
-        H = Hin = (Y_pred / std) * ( x * np.linalg.pinv(x).T).sum(1)
+        H = Hin = (x.T * np.linalg.inv(x.T.dot(x)).dot(x.T)).sum(0)
         residuals = res = (Y_pred - y) / std
         if (exdataX != None and exdataY != None) :
             test_set = True
@@ -84,7 +84,7 @@ class ModelExport :
             yex = exdataY.values
             Y_pred_ex = g_mlrr.predict(xex)
             residuals_ex = (Y_pred_ex - yex) / std
-            Hex = ( Y_pred_ex / std )  * ( xex * np.linalg.pinv(xex).T).sum(1)
+            Hex =  (xex.T * np.linalg.inv(xex.T.dot(xex)).dot(xex.T)).sum(0)
             H.append(Hex)   # append Hex to H
             residuals.append(residuals_ex)  # append residuals of test data
         hii = 3 * ( (len(self.feature_set) + 1) / len(Y_pred) )
@@ -94,7 +94,7 @@ class ModelExport :
         plt.axline(xy1=(H_min,-3),slope=0,linestyle="--")
         plt.axline(xy1=(hii, -3.5), xy2=(hii, 3.5))
         plt.ylabel("Std. Residuals")
-        plt.xlabel("Hat Values")
+        plt.xlabel(F"Hat Values (h*={hii:.2f})")
         plt.ylim([-3.5,3.5])
         plt.scatter(Hin,res,color=['gray'])
         if(test_set) :
